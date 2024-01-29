@@ -1,5 +1,4 @@
 package com.gerosd.multithreading;
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("Starting " + Thread.currentThread());
@@ -15,7 +14,6 @@ public class Main {
         }
         Thread thread = new Thread(() -> System.out.println("Anon class is running"));
         thread.start();
-
         System.out.println("Exit " + Thread.currentThread());
     }
 }
