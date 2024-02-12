@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Reader implements Runnable {
 
-    protected List<Integer> listOfResults;
+    protected final List<Integer> listOfResults;
     File file = new File("src\\main\\resources\\multithreadingFiles\\input.txt");
 
     public Reader(List<Integer> listOfResults) {
