@@ -1,4 +1,4 @@
-package com.gerosd.multithPract.Files;
+package com.gerosd.multithPract.Files.Read_write;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,5 @@ public class Start {
         readerThread.start();
         readerThread.join();
         writerThread.start();
-        writerThread.join();
     }
 }
