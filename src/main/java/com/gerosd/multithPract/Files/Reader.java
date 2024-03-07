@@ -1,4 +1,4 @@
-package com.gerosd.multithPract.Files.Read_write;
+package com.gerosd.multithPract.Files;
 
 import java.io.BufferedReader;
 import java.io.File;
