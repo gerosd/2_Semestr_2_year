@@ -11,13 +11,12 @@ public class OperationsService {
     final static Account acc1 = new Account(1, 1000);
     final static Account acc2 = new Account(2, 1000);
     private static final CountDownLatch startLatch = new CountDownLatch(1);
-    private static final CountDownLatch endLatch = new CountDownLatch(1);
     static ScheduledExecutorService service = createSuccessMonitoringThread();
 
     public static void main(String[] args) throws InterruptedException {
 
         for (int i = 0; i < 10; i++) {
-            service.submit(new Transfer(acc1, acc2, random.nextInt(400), startLatch, endLatch));
+            service.submit(new Transfer(acc1, acc2, random.nextInt(400), startLatch));
             startLatch.countDown();
         }
         service.shutdown();

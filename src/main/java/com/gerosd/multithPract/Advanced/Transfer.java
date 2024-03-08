@@ -7,27 +7,25 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Transfer implements Callable<Boolean> {
+    private static final AtomicInteger idGenerator = new AtomicInteger(1);
     private CountDownLatch startLatch = new CountDownLatch(1);
-    private CountDownLatch endLatch = new CountDownLatch(1);
     private static final int LOCK_WAIT_SEC = 5;
     private final Random waitRandom = new Random();
     private final int id;
     private final int amount;
-    Account accountFrom;
-    Account accountTo;
+    private final Account accountFrom;
+    private final Account accountTo;
 
     public Transfer(Account accountFrom, Account accountTo, int amount) {
-        AtomicInteger idGenerator = new AtomicInteger(1);
         this.id = idGenerator.getAndIncrement();
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;
     }
 
-    public Transfer (Account accountFrom, Account accountTo, int amount, CountDownLatch startLatch, CountDownLatch endLatch) {
+    public Transfer (Account accountFrom, Account accountTo, int amount, CountDownLatch startLatch) {
         this(accountFrom,accountTo,amount);
         this.startLatch = startLatch;
-        this.endLatch = endLatch;
     }
 
     @Override
@@ -38,12 +36,11 @@ public class Transfer implements Callable<Boolean> {
         }
         if (accountFrom.getLock().tryLock(LOCK_WAIT_SEC, TimeUnit.SECONDS)) {
             try {
-                if (accountTo.getLock()
-                        .tryLock(LOCK_WAIT_SEC, TimeUnit.SECONDS)) {
-
+                if (accountTo.getLock().tryLock(LOCK_WAIT_SEC, TimeUnit.SECONDS)) {
                     try {
                         if (accountFrom.getBalance() < amount) {
-                            throw new RuntimeException();
+                            accountFrom.incFailedTransferCount();
+                            return false;
                         }
                         accountFrom.withdraw(amount);
                         accountTo.deposit(amount);
@@ -51,12 +48,7 @@ public class Transfer implements Callable<Boolean> {
                         System.out.println(id + " Transfer " + amount + " done from " + accountFrom.getId() + " to " + accountTo.getId());
                         return true;
                     } finally {
-                        accountFrom.getLock().unlock();
                         accountTo.getLock().unlock();
-
-                        if (endLatch != null) {
-                            endLatch.countDown();
-                        }
                     }
                 } else {
                     accountTo.incFailedTransferCount();
