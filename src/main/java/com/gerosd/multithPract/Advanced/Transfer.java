@@ -4,10 +4,9 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Transfer implements Callable<Boolean> {
-    private static final AtomicInteger idGenerator = new AtomicInteger(1);
+    private final GenerateId idSetter = new GenerateId();
     private CountDownLatch startLatch = new CountDownLatch(1);
     private static final int LOCK_WAIT_SEC = 5;
     private final Random waitRandom = new Random();
@@ -17,7 +16,7 @@ public class Transfer implements Callable<Boolean> {
     private final Account accountTo;
 
     public Transfer(Account accountFrom, Account accountTo, int amount) {
-        this.id = idGenerator.getAndIncrement();
+        this.id = idSetter.setId();
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;
