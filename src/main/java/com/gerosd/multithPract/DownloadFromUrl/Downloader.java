@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Downloader implements Runnable {
-    private static final String url = "https://w.forfun.com/fetch/11/111f83349a9ecaef536b1f65c769c32f.jpeg";
+    private static final String url = "https://k0d.cc/storage/books/Architecture/Чистый%20код.%20Создание,%20анализ%20и%20рефакторинг%20(Мартин%202013).pdf";
 
     @Override
     public void run() {
@@ -19,6 +19,6 @@ public class Downloader implements Runnable {
     }
 
     private void download() throws IOException {
-        FileUtils.copyURLToFile(new URL(url), new File("D:\\загрузки\\photo.png"));
+        FileUtils.copyURLToFile(new URL(url), new File("D:\\загрузки\\книга.pdf"));
     }
 }

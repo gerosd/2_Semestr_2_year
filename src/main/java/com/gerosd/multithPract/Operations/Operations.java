@@ -1,4 +1,4 @@
-package com.gerosd.multithPract.Advanced;
+package com.gerosd.multithPract.Operations;
 
 public class Operations {
     public static void main(String[] args) {

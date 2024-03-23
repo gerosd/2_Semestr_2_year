@@ -1,4 +1,4 @@
-package com.gerosd.multithPract.Advanced;
+package com.gerosd.multithPract.Operations;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;

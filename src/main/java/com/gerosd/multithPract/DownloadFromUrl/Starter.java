@@ -7,7 +7,7 @@ public class Starter {
     private static final Thread imageHandler = new Thread(handler);
 
     public static void main(String[] args) {
-        imageHandler.start();
+        //imageHandler.start();
         download.start();
     }
 }
